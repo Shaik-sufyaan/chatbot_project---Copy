@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+'''from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 import random
@@ -24,7 +24,7 @@ class User(db.Model):
 def create_session(user):
     session_id = random.randint(10000, 99999)
     session["session_id"] = session_id
-    session["user_id"] = user.id
+    session["user_id"] = user.id  
     session["session_counter"] = session.get("session_counter", 0) + 1
 
     session_data = {
@@ -103,3 +103,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+'''

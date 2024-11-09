@@ -38,6 +38,7 @@ def create_session(user):
 
     return session_data
 
+
 # Home route (index page)
 @app.route('/')
 def index():
@@ -51,23 +52,23 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # Check if user already exists
+        # Check if the user already exists
         if User.query.filter_by(email=email).first():
             flash('Email already registered. Please log in.')
             return redirect(url_for('index'))
 
-        # Hash password and create new user in SQLite
+        # Hash the password and create a new user in SQLite
         hashed_password = generate_password_hash(password)
         new_user = User(name=name, email=email, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
 
-        # Now, create a session for the new user
+        # Create a session for the new user
         session_data = create_session(new_user)
+        session_id = session_data["Session_ID"]
 
-        # Register user in MySQL and create user-specific tables
-        session_id = session_data["Session_ID"]  # Retrieve session ID from session data
-        register_new_user(session_id, new_user)  # Pass session_id and user object
+        # Register user in SQLite using the database.py function
+        register_new_user(session_id, new_user)
 
         flash('Registration successful! Please log in.')
         return redirect(url_for('index'))
